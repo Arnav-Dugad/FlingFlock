@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="theme-color" content="#071f2d" />
+    <meta name="description" content="FlingFlock — a handcrafted slingshot physics adventure." />
+    <title>FlingFlock — Slingshot Adventure</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;600;700;800&family=Manrope:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <section id="landing" class="screen landing-screen active" aria-label="FlingFlock home screen">
+        <div class="landing-shade"></div>
+        <nav class="landing-nav">
+          <a class="brand" href="#" aria-label="FlingFlock home">
+            <span class="brand-mark" aria-hidden="true">
+              <span class="brand-eye"></span>
+            </span>
+            <span>FLING<span>FLOCK</span></span>
+          </a>
+          <div class="nav-actions">
+            <button id="howBtn" class="nav-link">How to play</button>
+            <button id="resetProgressBtn" class="nav-link subtle-link">Reset progress</button>
+            <button id="soundLandingBtn" class="icon-button glass" aria-label="Toggle sound">
+              <svg class="sound-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Zm12.5 3a4.5 4.5 0 0 0-2.1-3.8v7.6a4.5 4.5 0 0 0 2.1-3.8Zm-2.1-8.7v2.1a7.5 7.5 0 0 1 0 13.2v2.1a9.5 9.5 0 0 0 0-17.4Z"/></svg>
+              <svg class="sound-off" viewBox="0 0 24 24" aria-hidden="true"><path d="m19.7 16.9-1.4 1.4L15 15v3l-5-4H6v-4h3.2L5.7 6.5l1.4-1.4 12.6 11.8ZM15 9.2V6l-2.1 1.7L15 9.2Z"/></svg>
+            </button>
+          </div>
+        </nav>
+
+        <main class="hero">
+          <div class="eyebrow"><span></span> Slingshot adventure</div>
+          <h1>AIM.<br /><em>FLING.</em> <span>TRIUMPH.</span></h1>
+          <p>Master the arc. Topple impossible towers.<br />Outsmart every mischievous Muddle.</p>
+          <div class="hero-actions">
+            <button id="playBtn" class="primary-button">
+              <span class="play-triangle"></span>
+              Play expedition
+            </button>
+            <div class="progress-preview">
+              <span class="progress-ring"><b id="homeLevel">1</b></span>
+              <span><small>EXPEDITION</small><strong id="homeProgress">New journey</strong></span>
+            </div>
+          </div>
+        </main>
+
+        <div class="landing-footer">
+          <div class="feature"><span class="feature-icon">∞</span><span><b>Endless worlds</b><small>Procedural expeditions</small></span></div>
+          <div class="feature"><span class="feature-icon">✦</span><span><b>Skill shots</b><small>Four unique flyers</small></span></div>
+          <div class="feature"><span class="feature-icon">⌁</span><span><b>Real physics</b><small>Every impact matters</small></span></div>
+          <span class="edition">FIELD EDITION · 2026</span>
+        </div>
+      </section>
+
+      <section id="gameScreen" class="screen game-screen" aria-label="FlingFlock game">
+        <header class="game-header">
+          <button id="homeBtn" class="brand compact" aria-label="Back to home">
+            <span class="brand-mark" aria-hidden="true"><span class="brand-eye"></span></span>
+            <span>FLING<span>FLOCK</span></span>
+          </button>
+          <div class="world-label">
+            <small id="biomeLabel">SUNMEADOW RIDGE</small>
+            <div><button id="prevLevelBtn" class="mini-arrow" aria-label="Previous level">‹</button><strong>EXPEDITION <span id="levelLabel">01</span></strong><button id="nextLevelBtn" class="mini-arrow" aria-label="Next level">›</button></div>
+          </div>
+          <div class="game-stats">
+            <div class="stat"><small>SCORE</small><strong id="scoreLabel">0</strong></div>
+            <div class="stat stars"><span id="star1">★</span><span id="star2">★</span><span id="star3">★</span></div>
+            <button id="restartBtn" class="icon-button" aria-label="Restart level" title="Restart (R)">
+              <svg viewBox="0 0 24 24"><path d="M18.6 6.4A9 9 0 1 0 20.7 15h-2.2a7 7 0 1 1-1.3-7.2L14 11h7V4l-2.4 2.4Z"/></svg>
+            </button>
+            <button id="pauseBtn" class="icon-button" aria-label="Pause game" title="Pause (Esc)">
+              <svg viewBox="0 0 24 24"><path d="M7 5h4v14H7V5Zm6 0h4v14h-4V5Z"/></svg>
+            </button>
+          </div>
+        </header>
+
+        <div class="game-stage">
+          <canvas id="gameCanvas" width="1600" height="900" aria-label="Slingshot physics game canvas"></canvas>
+          <div id="hint" class="launch-hint">
+            <span class="mouse-icon"></span>
+            <div><b>Pull back to aim</b><small>Release to launch</small></div>
+          </div>
+
+          <aside class="objective-card">
+            <small>FIELD NOTES</small>
+            <div class="objective-row"><span class="target-orb mini"></span><span><b id="targetsLeft">3 Muddles</b><small>Clear the ridge</small></span></div>
+            <div class="divider"></div>
+            <div class="material-key"><span class="wood-chip"></span><span>Timber</span><span class="glass-chip"></span><span>Crystal</span><span class="stone-chip"></span><span>Stone</span></div>
+            <div class="field-telemetry">
+              <div><small>WIND</small><b id="windLabel">CALM</b></div>
+              <div><small>BEST</small><b id="bestLabel">—</b></div>
+            </div>
+          </aside>
+
+          <aside class="flock-card">
+            <small>YOUR FLOCK</small>
+            <div id="birdQueue" class="bird-queue"></div>
+          </aside>
+
+          <div class="power-dock">
+            <button class="power-button" data-power="scope" title="Long trajectory">
+              <span class="power-icon">⌖</span><span><b>Long sight</b><small><i id="scopeCount">3</i> charges</small></span>
+            </button>
+            <button class="power-button" data-power="quake" title="Shake loose structures">
+              <span class="power-icon">ϟ</span><span><b>Ground pulse</b><small><i id="quakeCount">2</i> charges</small></span>
+            </button>
+            <button class="power-button" data-power="boost" title="Boost next launch">
+              <span class="power-icon">»</span><span><b>Tailwind</b><small><i id="boostCount">2</i> charges</small></span>
+            </button>
+          </div>
+
+          <div id="abilityHint" class="ability-hint hidden">
+            <span>SPACE / TAP</span>
+            <strong id="abilityText">Activate ability</strong>
+          </div>
+          <div id="comboCallout" class="combo-callout" aria-live="polite">
+            <small>STRUCTURE CHAIN</small>
+            <strong><span id="comboCount">2</span>× COMBO</strong>
+            <i></i>
+          </div>
+          <div id="impactFlash" class="impact-flash"></div>
+          <div class="ridge-meter" aria-label="Ridge destruction progress">
+            <span>RIDGE DAMAGE</span>
+            <i><b id="ridgeMeterFill"></b></i>
+            <strong id="ridgeMeterLabel">0%</strong>
+          </div>
+          <div id="cinematicCallout" class="cinematic-callout">
+            <small id="calloutKicker">PRECISION IMPACT</small>
+            <strong id="calloutTitle">DIRECT HIT</strong>
+          </div>
+        </div>
+        <div class="portrait-brief" aria-hidden="true">
+          <span class="rotate-device">↻</span>
+          <div><strong>Turn sideways for the full flight deck</strong><small>You can still aim and launch here, but landscape gives you a clearer view of every impact.</small></div>
+          <div class="portrait-controls"><span>DRAG · AIM</span><span>TAP · ABILITY</span><span>R · RESTART</span></div>
+        </div>
+      </section>
+
+      <div id="howModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="howTitle">
+        <div class="modal how-modal">
+          <button class="modal-close" data-close-modal aria-label="Close">×</button>
+          <small class="modal-kicker">CADET BRIEFING</small>
+          <h2 id="howTitle">One sling. Four specialists.</h2>
+          <p>Pull a flyer back in the sling, adjust the arc, then release. Tap anywhere mid-flight—or press Space—to trigger their special move.</p>
+          <div class="how-grid">
+            <div><span class="bird-portrait dash"></span><b>Pip</b><small>Tap for a burst of speed</small></div>
+            <div><span class="bird-portrait split"></span><b>Trio</b><small>Splits into three flyers</small></div>
+            <div><span class="bird-portrait bomb"></span><b>Bo</b><small>Creates a shockwave</small></div>
+            <div><span class="bird-portrait loop"></span><b>Rue</b><small>Loops back with force</small></div>
+          </div>
+          <button class="primary-button" data-close-modal>Ready to fly</button>
+        </div>
+      </div>
+
+      <div id="pauseModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="pauseTitle">
+        <div class="modal pause-modal">
+          <small class="modal-kicker">FIELD BREAK</small>
+          <h2 id="pauseTitle">Expedition paused</h2>
+          <p>The Muddles are definitely not rebuilding while you’re away.</p>
+          <button id="resumeBtn" class="primary-button">Resume</button>
+          <button id="pauseRestartBtn" class="secondary-button">Restart expedition</button>
+          <button id="pauseResetProgressBtn" class="danger-button">Reset all progress</button>
+          <button id="pauseHomeBtn" class="text-button">Return to basecamp</button>
+        </div>
+      </div>
+
+      <div id="resetModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="resetTitle">
+        <div class="modal reset-modal">
+          <div class="warning-badge">!</div>
+          <small class="modal-kicker">FRESH START</small>
+          <h2 id="resetTitle">Reset every expedition?</h2>
+          <p>This clears unlocked levels, high scores, and saved progress on this device. Sound preferences will also return to default.</p>
+          <button id="confirmResetBtn" class="danger-button solid">Reset everything</button>
+          <button id="cancelResetBtn" class="secondary-button">Keep my progress</button>
+        </div>
+      </div>
+
+      <div id="resultModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
+        <div class="modal result-modal">
+          <div id="resultBadge" class="result-badge">✦</div>
+          <small id="resultKicker" class="modal-kicker">RIDGE CLEARED</small>
+          <h2 id="resultTitle">A flawless flight!</h2>
+          <div class="result-stars"><span>★</span><span>★</span><span>★</span></div>
+          <div class="score-breakdown">
+            <div><small>IMPACT</small><b id="impactScore">0</b></div>
+            <div><small>FLOCK BONUS</small><b id="flockBonus">0</b></div>
+            <div><small>TOTAL</small><b id="totalScore">0</b></div>
+          </div>
+          <button id="nextBtn" class="primary-button">Next expedition <span>→</span></button>
+          <button id="resultRestartBtn" class="secondary-button">Fly again</button>
+        </div>
+      </div>
+
+      <div id="toast" class="toast" role="status"></div>
+      <div id="transitionCurtain" class="transition-curtain" aria-hidden="true">
+        <span class="brand-mark"><span class="brand-eye"></span></span>
+        <i></i>
+      </div>
+    </div>
+    <script src="game.js"></script>
+  </body>
+</html>
